@@ -1,4 +1,4 @@
-The scalar product of two vectors is called dot product.
+malloc() is a function for dynamic memory allocation in C.
 
 ```c
 test_malloc():
