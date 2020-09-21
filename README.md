@@ -1,51 +1,43 @@
 The scalar product of two vectors is called dot product.
 
 ```c
-Each thread computes pairwise product of multiple components of vector.
-Since there are 10 components, but only a maximum of 4 total threads,
-each thread pairwise product of its component, and shifts by a stride
-of the total number of threads. This is done as long as it does not
-exceed the length of the vector. Each thread maintains the sum of the
-pairwise products it calculates.
-
-kernel():
-1. Get byte at buffer for this thread.
-2. Atomically increment appropriate index in histogram.
-3. Shift to the next byte, by a stride.
+test_malloc():
+Testing performance of 100 memory copy operations
+between CPU memory allocated with malloc().
 ```
 
+```c
+test_cuda_malloc():
+Testing performance of 100 memory copy operations
+between CPU memory allocated with malloc() and
+GPU memory allocated with cudaMalloc(). Because
+memory allocated with malloc() is pageable memory,
+it will first be copied to a page-locked `staging`
+area, before being transferring to GPU by DMA.
+Note however that allocating too much pinned memory
+can cause system slowdown, or even crash due to
+lack of usable memory.
 ```
-Each thread atomically increments the bytes in buffer meant for it.
-This is done in the shared thread block memory first, until the
-buffer is consumed. Then each thread in the block updates the
-histogram in the global memory atomically. This reduces global
-memory contention.
 
-kernel_shared():
-1. Initialize shared memory (of size 256).
-2. Get byte at buffer for this thread.
-3. Atomically increment appropriate index in shared memory.
-4. Shift to the next byte, by a stride.
-5. Wait for all threads within the block to finish.
-5. Reduce the sum in the cache to a single value in binary tree fashion.
-6. Atomically update per-block histogram into global histogram.
+```c
+test_cuda_host_alloc():
+Testing performance of 100 memory copy operations
+between CPU memory allocated with cudaHostAlloc()
+and GPU memory allocated with cudaMalloc(). Memory
+allocated with cudaHostAlloc() is page-locked
+(pinned), which means the memory can be directly
+copied by DMA into the GPU.
 ```
 
 ```bash
 # OUTPUT
-CPU Histogram ...
-CPU execution time: 3.0 ms
-CPU Histogram sum: 1000000
+CPU malloc -> CPU malloc: 178.0 ms
 
-GPU Histogram: atomic ...
-GPU execution time: 1.4 ms
-GPU Histogram sum: 1000000
-GPU Histogram verified.
+CPU malloc -> GPU cudaMalloc: 241.0 ms
+CPU malloc <- GPU cudaMalloc: 220.6 ms
 
-GPU Histogram: shared + atomic ...
-GPU execution time: 1.2 ms
-GPU Histogram sum: 1000000
-GPU Histogram verified.
+CPU cudaHostAlloc -> GPU cudaMalloc: 90.3 ms
+CPU cudaHostAlloc <- GPU cudaMalloc: 86.8 ms
 ```
 
 See [main.cu] for code.
