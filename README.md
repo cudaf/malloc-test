@@ -31,13 +31,13 @@ copied by DMA into the GPU.
 
 ```bash
 # OUTPUT
-CPU malloc -> CPU malloc: 178.0 ms
+CPU malloc -> CPU malloc: 92.0 ms
 
-CPU malloc -> GPU cudaMalloc: 241.0 ms
-CPU malloc <- GPU cudaMalloc: 220.6 ms
+CPU malloc -> GPU cudaMalloc: 152.8 ms
+CPU malloc <- GPU cudaMalloc: 184.7 ms
 
-CPU cudaHostAlloc -> GPU cudaMalloc: 90.3 ms
-CPU cudaHostAlloc <- GPU cudaMalloc: 86.8 ms
+CPU cudaHostAlloc -> GPU cudaMalloc: 87.0 ms
+CPU cudaHostAlloc <- GPU cudaMalloc: 86.3 ms
 ```
 
 See [main.cu] for code.
