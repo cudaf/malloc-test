@@ -40,9 +40,10 @@ CPU cudaHostAlloc -> GPU cudaMalloc: 87.0 ms
 CPU cudaHostAlloc <- GPU cudaMalloc: 86.3 ms
 ```
 
-See [main.cu] for code.
+See [main.cu] for code, [main.ipynb] for notebook.
 
 [main.cu]: main.cu
+[main.ipynb]: https://colab.research.google.com/drive/1g0OANPhXuV-iyGwcaLrTMMv0JDQvw6Gd?usp=sharing
 
 
 ### references
