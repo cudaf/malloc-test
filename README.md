@@ -30,22 +30,26 @@ copied by DMA into the GPU.
 ```
 
 ```bash
-# OUTPUT
-CPU malloc -> CPU malloc: 92.0 ms
+$ nvcc -std=c++17 -Xcompiler -O3 main.cu
+$ ./a.out
 
-CPU malloc -> GPU cudaMalloc: 152.8 ms
-CPU malloc <- GPU cudaMalloc: 184.7 ms
-
-CPU cudaHostAlloc -> GPU cudaMalloc: 87.0 ms
-CPU cudaHostAlloc <- GPU cudaMalloc: 86.3 ms
+# CPU malloc -> CPU malloc: 0.0 ms
+#
+# CPU malloc -> GPU cudaMalloc: 208.9 ms
+# CPU malloc <- GPU cudaMalloc: 178.7 ms
+#
+# CPU cudaHostAlloc -> GPU cudaMalloc: 86.1 ms
+# CPU cudaHostAlloc <- GPU cudaMalloc: 80.4 ms
 ```
 
-See [main.cu] for code, [main.ipynb] for notebook.
+See [main.cu] for code.
 
 [main.cu]: main.cu
-[main.ipynb]: https://colab.research.google.com/drive/1g0OANPhXuV-iyGwcaLrTMMv0JDQvw6Gd?usp=sharing
+
+<br>
+<br>
 
 
-### references
+## References
 
-- [CUDA by Example :: Jason Sanders, Edward Kandrot](http://www.mat.unimi.it/users/sansotte/cuda/CUDA_by_Example.pdf)
+- [CUDA by Example :: Jason Sanders, Edward Kandrot](https://gist.github.com/wolfram77/72c51e494eaaea1c21a9c4021ad0f320)

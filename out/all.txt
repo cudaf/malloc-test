@@ -1,0 +1,7 @@
+CPU malloc -> CPU malloc: 0.0 ms
+
+CPU malloc -> GPU cudaMalloc: 208.9 ms
+CPU malloc <- GPU cudaMalloc: 178.7 ms
+
+CPU cudaHostAlloc -> GPU cudaMalloc: 86.1 ms
+CPU cudaHostAlloc <- GPU cudaMalloc: 80.4 ms
