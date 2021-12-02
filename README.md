@@ -1,13 +1,13 @@
 malloc() is a function for dynamic memory allocation in C.
 
 ```c
-test_malloc():
+testMalloc():
 Testing performance of 100 memory copy operations
 between CPU memory allocated with malloc().
 ```
 
 ```c
-test_cuda_malloc():
+testCudaMalloc():
 Testing performance of 100 memory copy operations
 between CPU memory allocated with malloc() and
 GPU memory allocated with cudaMalloc(). Because
@@ -20,7 +20,7 @@ lack of usable memory.
 ```
 
 ```c
-test_cuda_host_alloc():
+testCudaHostAlloc():
 Testing performance of 100 memory copy operations
 between CPU memory allocated with cudaHostAlloc()
 and GPU memory allocated with cudaMalloc(). Memory

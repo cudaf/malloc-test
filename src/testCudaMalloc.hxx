@@ -1,22 +1,27 @@
 #pragma once
-#include <cuda_runtime.h>
-#include <device_launch_parameters.h>
-#include "support.h"
+#include <cstdlib>
+#include "_main.hxx"
+
+using std::free;
+using std::malloc;
 
 
 // Testing performance of 100 memory copy operations
-// between CPU memory allocated with cudaHostAlloc()
-// and GPU memory allocated with cudaMalloc(). Memory
-// allocated with cudaHostAlloc() is page-locked
-// (pinned), which means the memory can be directly
-// copied by DMA into the GPU.
-float test_cuda_host_alloc(int size, bool up) {
+// between CPU memory allocated with malloc() and
+// GPU memory allocated with cudaMalloc(). Because
+// memory allocated with malloc() is pageable memory,
+// it will first be copied to a page-locked `staging`
+// area, before being transferring to GPU by DMA.
+// Note however that allocating too much pinned memory
+// can cause system slowdown, or even crash due to
+// lack of usable memory.
+float testCudaMalloc(int size, bool up) {
   cudaEvent_t start, stop;
   TRY( cudaEventCreate(&start) );
   TRY( cudaEventCreate(&stop) );
 
   void *a, *aD;
-  TRY( cudaHostAlloc(&a, size, cudaHostAllocDefault) );
+  a = malloc(size);
   TRY( cudaMalloc(&aD, size) );
   TRY( cudaEventRecord(start, 0) );
 
@@ -33,6 +38,6 @@ float test_cuda_host_alloc(int size, bool up) {
   TRY( cudaEventDestroy(start) );
   TRY( cudaEventDestroy(stop) );
   TRY( cudaFree(aD) );
-  TRY( cudaFreeHost(a) );
+  free(a);
   return duration;
 }

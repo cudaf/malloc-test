@@ -1,31 +1,26 @@
-#include <cuda_runtime.h>
-#include <device_launch_parameters.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include "support.h"
-#include "_malloc.h"
-#include "_cuda_malloc.h"
-#include "_cuda_host_alloc.h"
+#include <cstdio>
+#include "src/main.hxx"
+
+using std::printf;
 
 
 int main() {
   int size = 10 * 1024 * 1024;
 
   printf("CPU malloc -> CPU malloc: %3.1f ms\n",
-    test_malloc(size));
+    testMalloc(size));
   printf("\n");
 
   printf("CPU malloc -> GPU cudaMalloc: %3.1f ms\n",
-    test_cuda_malloc(size, 1));
+    testCudaMalloc(size, 1));
   printf("CPU malloc <- GPU cudaMalloc: %3.1f ms\n",
-    test_cuda_malloc(size, 0));
+    testCudaMalloc(size, 0));
   printf("\n");
 
   printf("CPU cudaHostAlloc -> GPU cudaMalloc: %3.1f ms\n",
-    test_cuda_host_alloc(size, 1));
+    testCudaHostAlloc(size, 1));
   printf("CPU cudaHostAlloc <- GPU cudaMalloc: %3.1f ms\n",
-    test_cuda_host_alloc(size, 0));
+    testCudaHostAlloc(size, 0));
+  printf("\n");
   return 0;
 }

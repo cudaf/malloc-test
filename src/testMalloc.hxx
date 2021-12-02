@@ -1,12 +1,18 @@
 #pragma once
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+
+using std::clock_t;
+using std::free;
+using std::malloc;
+using std::memcpy;
+using std::clock;
 
 
 // Testing performance of 100 memory copy operations
 // between CPU memory allocated with malloc().
-float test_malloc(int size) {
+float testMalloc(int size) {
   void *a = malloc(size);
   void *b = malloc(size);
   clock_t start = clock();
